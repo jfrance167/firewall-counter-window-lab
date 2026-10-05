@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<title>Counter window lab</title>
+<style>
+body{margin:0;background:#f5f4f0;color:#171a20;font:16px system-ui,sans-serif}
+main{max-width:1000px;margin:0 auto;padding:clamp(20px,5vw,64px)}
+header{border-bottom:1px solid #c9ccd2;padding-bottom:24px;margin-bottom:28px}
+.brand{color:#496c95;font:700 12px ui-monospace,monospace;letter-spacing:3px}
+h1{font-size:clamp(32px,5vw,56px);letter-spacing:-2px;line-height:1.05}
+p{max-width:70ch;line-height:1.6}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.7 ui-monospace,monospace;
+background:white;border:1px solid #d5d7db;border-radius:8px;padding:20px}
+summary{cursor:pointer;font-weight:600;padding:16px 0}
+</style></head><body><main><header><div class="brand">FWRULE / COUNTER WINDOW</div>
+<h1>Two samples.<br>Explicit assumptions.</h1>
+<p>Observe counter changes without mistaking them for proof of reachability.
+Rates require an operator continuity assumption; hidden resets remain possible.</p></header>
+<pre>COUNTER WINDOW LAB
+Mode: conditional
+Elapsed: 10000000 microseconds
+Source and epoch are operator assertions. Matching epochs and nondecreasing counters never prove continuity: hidden resets may occur. Zero observed change does not prove unreachability or removal safety. Rule text is opaque.
+Continuity proven: false
+Before: 2026-10-05T00:00:00+00:00 source=synthetic-lab asserted epoch=asserted-epoch-1
+After: 2026-10-05T00:00:10+00:00 source=synthetic-lab asserted epoch=asserted-epoch-1
+Source assertions match: True; non-null epoch assertions match: True
+
+INPUT: unchanged
+  1. -s 192.0.2.0/24 -j ACCEPT: observed
+     before: 10 packets, 1000 bytes
+     after: 30 packets, 3000 bytes
+     Observed subtraction: 20 packets, 2000 bytes
+     conditional on operator-assumed continuity; hidden resets remain possible
+     Conditional rates: 2.000000000 packets/s; 200.000000000 bytes/s
+  2. -s 198.51.100.0/24 -j ACCEPT: zero-observed-change
+     before: 0 packets, 0 bytes
+     after: 0 packets, 0 bytes
+     Observed subtraction: 0 packets, 0 bytes
+     conditional on operator-assumed continuity; hidden resets remain possible
+     Conditional rates: 0.000000000 packets/s; 0.000000000 bytes/s
+  3. -j DROP: discontinuity
+     before: 500 packets, 50000 bytes
+     after: 3 packets, 300 bytes
+     Observed subtraction: -497 packets, -49700 bytes
+     Conditional rates withheld: discontinuity
+9 decimal places, decimal half-even; deltas and elapsed time remain exact
+</pre><details><summary>Snapshot evidence and conditional results</summary>
+<pre>{
+  &quot;report_version&quot;: 1,
+  &quot;before&quot;: {
+    &quot;source_id&quot;: &quot;synthetic-lab&quot;,
+    &quot;epoch_id&quot;: &quot;asserted-epoch-1&quot;,
+    &quot;captured_at&quot;: &quot;2026-10-05T00:00:00+00:00&quot;
+  },
+  &quot;after&quot;: {
+    &quot;source_id&quot;: &quot;synthetic-lab&quot;,
+    &quot;epoch_id&quot;: &quot;asserted-epoch-1&quot;,
+    &quot;captured_at&quot;: &quot;2026-10-05T00:00:10+00:00&quot;
+  },
+  &quot;elapsed_microseconds&quot;: 10000000,
+  &quot;mode&quot;: &quot;conditional&quot;,
+  &quot;source_assertions_match&quot;: true,
+  &quot;epoch_assertions_match&quot;: true,
+  &quot;continuity_proven&quot;: false,
+  &quot;limitation&quot;: &quot;Source and epoch are operator assertions. Matching epochs and nondecreasing counters never prove continuity: hidden resets may occur. Zero observed change does not prove unreachability or removal safety. Rule text is opaque.&quot;,
+  &quot;rate_rounding&quot;: &quot;9 decimal places, decimal half-even; deltas and elapsed time remain exact&quot;,
+  &quot;chains&quot;: [
+    {
+      &quot;name&quot;: &quot;INPUT&quot;,
+      &quot;status&quot;: &quot;unchanged&quot;,
+      &quot;before_policy&quot;: &quot;DROP&quot;,
+      &quot;after_policy&quot;: &quot;DROP&quot;,
+      &quot;before_rules&quot;: [
+        {
+          &quot;position&quot;: 1,
+          &quot;rule_text&quot;: &quot;-s 192.0.2.0/24 -j ACCEPT&quot;,
+          &quot;packets&quot;: 10,
+          &quot;bytes&quot;: 1000
+        },
+        {
+          &quot;position&quot;: 2,
+          &quot;rule_text&quot;: &quot;-s 198.51.100.0/24 -j ACCEPT&quot;,
+          &quot;packets&quot;: 0,
+          &quot;bytes&quot;: 0
+        },
+        {
+          &quot;position&quot;: 3,
+          &quot;rule_text&quot;: &quot;-j DROP&quot;,
+          &quot;packets&quot;: 500,
+          &quot;bytes&quot;: 50000
+        }
+      ],
+      &quot;after_rules&quot;: [
+        {
+          &quot;position&quot;: 1,
+          &quot;rule_text&quot;: &quot;-s 192.0.2.0/24 -j ACCEPT&quot;,
+          &quot;packets&quot;: 30,
+          &quot;bytes&quot;: 3000
+        },
+        {
+          &quot;position&quot;: 2,
+          &quot;rule_text&quot;: &quot;-s 198.51.100.0/24 -j ACCEPT&quot;,
+          &quot;packets&quot;: 0,
+          &quot;bytes&quot;: 0
+        },
+        {
+          &quot;position&quot;: 3,
+          &quot;rule_text&quot;: &quot;-j DROP&quot;,
+          &quot;packets&quot;: 3,
+          &quot;bytes&quot;: 300
+        }
+      ],
+      &quot;observations&quot;: [
+        {
+          &quot;position&quot;: 1,
+          &quot;rule_text&quot;: &quot;-s 192.0.2.0/24 -j ACCEPT&quot;,
+          &quot;status&quot;: &quot;observed&quot;,
+          &quot;observed_difference&quot;: {
+            &quot;packets&quot;: 20,
+            &quot;bytes&quot;: 2000
+          },
+          &quot;conditional&quot;: {
+            &quot;label&quot;: &quot;conditional on operator-assumed continuity; hidden resets remain possible&quot;,
+            &quot;delta_packets&quot;: 20,
+            &quot;delta_bytes&quot;: 2000,
+            &quot;packets_per_second&quot;: &quot;2.000000000&quot;,
+            &quot;bytes_per_second&quot;: &quot;200.000000000&quot;
+          },
+          &quot;conditional_withheld&quot;: []
+        },
+        {
+          &quot;position&quot;: 2,
+          &quot;rule_text&quot;: &quot;-s 198.51.100.0/24 -j ACCEPT&quot;,
+          &quot;status&quot;: &quot;zero-observed-change&quot;,
+          &quot;observed_difference&quot;: {
+            &quot;packets&quot;: 0,
+            &quot;bytes&quot;: 0
+          },
+          &quot;conditional&quot;: {
+            &quot;label&quot;: &quot;conditional on operator-assumed continuity; hidden resets remain possible&quot;,
+            &quot;delta_packets&quot;: 0,
+            &quot;delta_bytes&quot;: 0,
+            &quot;packets_per_second&quot;: &quot;0.000000000&quot;,
+            &quot;bytes_per_second&quot;: &quot;0.000000000&quot;
+          },
+          &quot;conditional_withheld&quot;: []
+        },
+        {
+          &quot;position&quot;: 3,
+          &quot;rule_text&quot;: &quot;-j DROP&quot;,
+          &quot;status&quot;: &quot;discontinuity&quot;,
+          &quot;observed_difference&quot;: {
+            &quot;packets&quot;: -497,
+            &quot;bytes&quot;: -49700
+          },
+          &quot;conditional&quot;: null,
+          &quot;conditional_withheld&quot;: [
+            &quot;discontinuity&quot;
+          ]
+        }
+      ]
+    }
+  ]
+}</pre></details></main></body></html>

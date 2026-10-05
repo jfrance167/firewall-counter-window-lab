@@ -1,0 +1,26 @@
+COUNTER WINDOW LAB
+Mode: observation-only
+Elapsed: 10000000 microseconds
+Source and epoch are operator assertions. Matching epochs and nondecreasing counters never prove continuity: hidden resets may occur. Zero observed change does not prove unreachability or removal safety. Rule text is opaque.
+Continuity proven: false
+Before: 2026-10-05T00:00:00+00:00 source=synthetic-lab asserted epoch=asserted-epoch-1
+After: 2026-10-05T00:00:10+00:00 source=synthetic-lab asserted epoch=asserted-epoch-1
+Source assertions match: True; non-null epoch assertions match: True
+
+INPUT: unchanged
+  1. -s 192.0.2.0/24 -j ACCEPT: observed
+     before: 10 packets, 1000 bytes
+     after: 30 packets, 3000 bytes
+     Observed subtraction: 20 packets, 2000 bytes
+     Conditional rates withheld: continuity assumption not requested
+  2. -s 198.51.100.0/24 -j ACCEPT: zero-observed-change
+     before: 0 packets, 0 bytes
+     after: 0 packets, 0 bytes
+     Observed subtraction: 0 packets, 0 bytes
+     Conditional rates withheld: continuity assumption not requested
+  3. -j DROP: discontinuity
+     before: 500 packets, 50000 bytes
+     after: 3 packets, 300 bytes
+     Observed subtraction: -497 packets, -49700 bytes
+     Conditional rates withheld: continuity assumption not requested; discontinuity
+9 decimal places, decimal half-even; deltas and elapsed time remain exact

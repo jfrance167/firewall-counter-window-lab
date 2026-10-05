@@ -1,0 +1,110 @@
+{
+  "report_version": 1,
+  "before": {
+    "source_id": "synthetic-lab",
+    "epoch_id": "asserted-epoch-1",
+    "captured_at": "2026-10-05T00:00:00+00:00"
+  },
+  "after": {
+    "source_id": "synthetic-lab",
+    "epoch_id": "asserted-epoch-1",
+    "captured_at": "2026-10-05T00:00:10+00:00"
+  },
+  "elapsed_microseconds": 10000000,
+  "mode": "observation-only",
+  "source_assertions_match": true,
+  "epoch_assertions_match": true,
+  "continuity_proven": false,
+  "limitation": "Source and epoch are operator assertions. Matching epochs and nondecreasing counters never prove continuity: hidden resets may occur. Zero observed change does not prove unreachability or removal safety. Rule text is opaque.",
+  "rate_rounding": "9 decimal places, decimal half-even; deltas and elapsed time remain exact",
+  "chains": [
+    {
+      "name": "INPUT",
+      "status": "unchanged",
+      "before_policy": "DROP",
+      "after_policy": "DROP",
+      "before_rules": [
+        {
+          "position": 1,
+          "rule_text": "-s 192.0.2.0/24 -j ACCEPT",
+          "packets": 10,
+          "bytes": 1000
+        },
+        {
+          "position": 2,
+          "rule_text": "-s 198.51.100.0/24 -j ACCEPT",
+          "packets": 0,
+          "bytes": 0
+        },
+        {
+          "position": 3,
+          "rule_text": "-j DROP",
+          "packets": 500,
+          "bytes": 50000
+        }
+      ],
+      "after_rules": [
+        {
+          "position": 1,
+          "rule_text": "-s 192.0.2.0/24 -j ACCEPT",
+          "packets": 30,
+          "bytes": 3000
+        },
+        {
+          "position": 2,
+          "rule_text": "-s 198.51.100.0/24 -j ACCEPT",
+          "packets": 0,
+          "bytes": 0
+        },
+        {
+          "position": 3,
+          "rule_text": "-j DROP",
+          "packets": 3,
+          "bytes": 300
+        }
+      ],
+      "observations": [
+        {
+          "position": 1,
+          "rule_text": "-s 192.0.2.0/24 -j ACCEPT",
+          "status": "observed",
+          "observed_difference": {
+            "packets": 20,
+            "bytes": 2000
+          },
+          "conditional": null,
+          "conditional_withheld": [
+            "continuity assumption not requested"
+          ]
+        },
+        {
+          "position": 2,
+          "rule_text": "-s 198.51.100.0/24 -j ACCEPT",
+          "status": "zero-observed-change",
+          "observed_difference": {
+            "packets": 0,
+            "bytes": 0
+          },
+          "conditional": null,
+          "conditional_withheld": [
+            "continuity assumption not requested"
+          ]
+        },
+        {
+          "position": 3,
+          "rule_text": "-j DROP",
+          "status": "discontinuity",
+          "observed_difference": {
+            "packets": -497,
+            "bytes": -49700
+          },
+          "conditional": null,
+          "conditional_withheld": [
+            "continuity assumption not requested",
+            "discontinuity"
+          ]
+        }
+      ]
+    }
+  ]
+}
